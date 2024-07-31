@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Order</title>
+    <style>
+        /* 기본 스타일 추가 */
+        .friendly h1 {
+            font-size: 2.5em;
+        }
+
+        .friendly .order-button {
+            width: 300px;
+            padding: 30px;
+            font-size: 2em;
+            margin: 20px auto;
+        }
+
+        #start-voice-button {
+            display: none;
+        }
+    </style>
+    {% load static %}
+    <script src="{% static 'orders/js/speech.js' %}" defer></script>
+    <script src="{% static 'orders/js/voiceorder.js' %}" defer></script>
+</head>
+<body>
+    <div id="menu-selection-screen">
+        <button onclick="selectMenu('friendly')">간편 주문 모드</button>
+        <button onclick="selectMenu('normal')">일반 모드</button>
+    </div>
+    <div id="start-screen" style="display:none;">
+        <h1>주문을 시작하세요</h1>
+        <button class="order-button" onclick="startOrder('매장')">매장</button>
+        <button class="order-button" onclick="startOrder('포장')">포장</button>
+    </div>
+    <div id="order-screen" style="display:none;">
+        <!-- 주문 화면 내용 -->
+        <div id="category-buttons">
+            <button class="menu-button" onclick="showMenu('coffee', '에스프레소')">커피</button>
+            <button class="menu-button" onclick="showMenu('beverages', '에이드')">음료</button>
+        </div>
+        <div id="subcategory-buttons"></div>
+        <div id="menu"></div>
+        <div id="pagination">
+            <button onclick="prevPage()">이전</button>
+            <span id="page-number"></span>
+            <button onclick="nextPage()">다음</button>
+        </div>
+    </div>
+    <button id="start-voice-button" onclick="startVoiceRecognition()">음성 인식 시작</button>
+</body>
+</html>
