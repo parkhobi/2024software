@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메가커피 성신여대점 키오스크</title>
+</head>
+<body>
+    <h1>Voice Order System</h1>
+
+    <!-- 폼을 추가하여 CSRF 토큰을 포함시킵니다. -->
+    <form id="audioForm" method="post" style="display:none;">
+        {% csrf_token %}
+    </form>
+
+    <button id="recordButton">Start Recording</button>
+    <p id="result"></p>
+
+    <script>
+        let audioRecorder;
+        let audioChunks = [];
+
+        document.getElementById('recordButton').onclick = async () => {
+            if (!audioRecorder) {
+                await initializeRecorder();
+            }
+            if (audioRecorder.state === 'inactive') {
+                audioChunks = [];
+                audioRecorder.start();
+                document.getElementById('recordButton').innerText = 'Stop Recording';
+            } else {
+                audioRecorder.stop();
+                document.getElementById('recordButton').innerText = 'Start Recording';
+            }
+        };
+
+        async function initializeRecorder() {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            audioRecorder = new MediaRecorder(stream);
+
+            audioRecorder.ondataavailable = event => {
+                audioChunks.push(event.data);
+            };
+
+            audioRecorder.onstop = async () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const formData = new FormData(document.getElementById('audioForm'));
+                formData.append('audio', audioBlob, 'voice.wav');
+
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                const response = await fetch('/process_audio/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrfToken  // CSRF 토큰을 헤더에 포함
+                    }
+                });
+
+                const result = await response.json();
+                document.getElementById('result').innerText = result.success ? result.text : result.error;
+            };
+        }
+    </script>
+</body>
+</html>
