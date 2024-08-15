@@ -3,8 +3,8 @@ import requests
 def clova_speech_recognition(audio_file_path):
     url = "https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=Kor"
     headers = {
-        "X-NCP-APIGW-API-KEY-ID": "",
-        "X-NCP-APIGW-API-KEY": "",
+        "X-NCP-APIGW-API-KEY-ID": "0rpsgkcz90",
+        "X-NCP-APIGW-API-KEY": "SSR9KxNlhQFPtYUljvhxuSVSXTbyZBKltk0SO6Or",
         "Content-Type": "application/octet-stream"
     }
 

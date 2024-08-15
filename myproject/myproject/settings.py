@@ -30,8 +30,8 @@ INSTALLED_APPS = [
     'voiceorder',
 ]
 
-CLOVA_API_CLIENT_ID = ''
-CLOVA_API_CLIENT_SECRET = ''
+CLOVA_API_CLIENT_ID = '0rpsgkcz90'
+CLOVA_API_CLIENT_SECRET = 'SSR9KxNlhQFPtYUljvhxuSVSXTbyZBKltk0SO6Or'
 
 # settings.py
 
