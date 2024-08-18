@@ -12,6 +12,8 @@ def simple_order(request):
 
             # clova_speech_recognition 함수에 파일 데이터를 전달
             recognized_text = clova_speech_recognition(audio_data)
+            print(f"Recognized Text: {recognized_text}")  # 인식된 텍스트 확인을 위해 로그에 출력
+
             item_name = extract_item_from_text(recognized_text)
             quantity = extract_quantity_from_text(recognized_text)
 
