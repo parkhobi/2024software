@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regular Order</title>
+</head>
+<body>
+    <h1>기본 주문</h1>
+
+    <form method="POST" action="/regular_order/">
+        {% csrf_token %}
+        <label for="menu">메뉴 선택:</label>
+        <select name="menu_id" id="menu">
+            {% for item in menu_items %}
+                <option value="{{ item.id }}">{{ item.name }} ({{ item.price }}원)</option>
+            {% endfor %}
+        </select>
+
+        <label for="quantity">수량:</label>
+        <input type="number" name="quantity" id="quantity" min="1" value="1">
+
+        <button type="submit">주문하기</button>
+    </form>
+</body>
+</html>

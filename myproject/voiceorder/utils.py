@@ -1,30 +1,26 @@
+
+
 import requests
 
-def clova_speech_recognition(audio_file_path):
-    url = "https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=Kor"
+def clova_speech_recognition(audio_data):
+    url = "https://naveropenapi.apigw.ntruss.com/recog/v1/stt"
     headers = {
-        "X-NCP-APIGW-API-KEY-ID": "0rpsgkcz90",
-        "X-NCP-APIGW-API-KEY": "SSR9KxNlhQFPtYUljvhxuSVSXTbyZBKltk0SO6Or",
+        "X-NCP-APIGW-API-KEY-ID": "ct1yjvm22n",
+        "X-NCP-APIGW-API-KEY": "pd0zlyJZlUupWeXwXZrOgW5Sitq1oqNbzyLdD0ce",
         "Content-Type": "application/octet-stream"
     }
 
-    with open(audio_file_path, 'rb') as audio_file:
-        audio_data = audio_file.read()
-    
-    # 로그 추가: 파일 데이터 크기 확인
-    print(f"Debug: Audio file size is {len(audio_data)} bytes")
+    params = {
+        "lang": "Kor",  # 한국어로 설정
+        "mode": "dialog"  # 장문 인식 모드 (연속 음성 인식)
+    }
 
-    if len(audio_data) == 0:
-        print("Error: The audio file is empty")
-        return None
 
-    response = requests.post(url, data=audio_data, headers=headers)
-    rescode = response.status_code
+    # audio_data를 파일 데이터로 전송
+    response = requests.post(url, headers=headers, params=params, data=audio_data)
 
-    if rescode == 200:
+    if response.status_code == 200:
         return response.json().get('text')
     else:
-        print("Error Code:", rescode)
-        print("Error Message:", response.text)
+        print(f"Error Code: {response.status_code}")
         return None
-

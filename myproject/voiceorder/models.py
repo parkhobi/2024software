@@ -12,3 +12,11 @@ class MenuItem(models.Model):
 
     def __str__(self):
         return self.name
+
+class CartItem(models.Model):
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    options = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return f'{self.quantity} x {self.menu_item.name}'

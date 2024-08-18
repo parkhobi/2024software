@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>옵션 선택</title>
+</head>
+<body>
+    <h1>옵션 선택</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="options">옵션 선택:</label>
+        <input type="text" name="options" value="{{ cart_item.options }}" />
+        <button type="submit">저장</button>
+    </form>
+</body>
+</html>

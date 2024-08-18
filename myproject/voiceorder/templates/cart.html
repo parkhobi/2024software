@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장바구니</title>
+</head>
+<body>
+    <h1>장바구니</h1>
+    <ul>
+        {% for item in cart_items %}
+            <li>{{ item.menu_item.name }} - {{ item.quantity }}개</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/checkout/"><button>결제하기</button></a>
+</body>
+</html>
