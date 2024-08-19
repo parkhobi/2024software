@@ -1,0 +1,774 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #8acaa4; /* 노랑색 #FAF3C0에서 변경 */
+}
+
+#initial-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+.full-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh; 
+}
+
+.full-screen-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    width: auto; 
+    height: auto; 
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.home-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 50px); /* 헤더 높이를 뺀 나머지 화면 높이 */
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+p {
+    font-size: 14px;
+    color: #333;
+}
+
+/* 주문 방식 선택, 포장 매장 선택하는 부분 중앙 정렬 */
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - 50vh); 
+    margin-top: 25vh; 
+    text-align: center;
+  }
+
+/* 버튼 세로 정렬로 수정 */
+.order-button {
+    display: block; 
+    margin-bottom: 20px; 
+    width: 200px;
+    padding: 20px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+  
+.order-button:hover {
+    background-color: #45a049;
+}
+  
+.menu-description {
+    font-size: 1.8em; 
+    line-height: 1.4; 
+    margin: 20px 0; 
+    font-weight: bold;
+}
+
+.menu-button {
+    width: 200px;
+    padding: 20px;
+    margin: 10px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.menu-button:hover, .cart button:hover {
+    background-color: #45a049;
+}
+
+.menu-button.active {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+
+.menu-items p {
+    margin: 5px 0;
+    font-size: 1.2em;
+}
+
+.subcategory-button {
+    width: 150px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.subcategory-button:hover {
+    background-color: #45a049;
+}
+
+.subcategory-button.active {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+
+
+.menu, .cart {
+    margin: 20px 0;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.menu-item {
+    background: white;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    width: 18%;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 320px;
+}
+
+.menu-item img {
+    width: 150px; 
+    height: 150px;
+    object-fit: contain; 
+}
+
+.menu-item h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.menu-item p {
+    font-size: 1em;
+    margin: 5px 0;
+}
+
+.menu-item button {
+    width: 80%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.menu-item button:hover {
+    background-color: #45a049;
+}
+
+#options-selection-screen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+    height: 90%;
+    overflow-y: auto;
+}
+
+.price {
+    background-color: #e6ffe6; 
+    padding: 10px 20px; 
+    border-radius: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.options-header {
+    background-color: #8acaa4;
+    padding: 20px;
+    text-align: center;
+    color: black;
+}
+
+.options-header h1, .options-header p {
+    margin: 0;
+    padding: 0;
+}
+
+.option-button {
+    flex: 1;
+    padding: 20px;
+    margin: 10px;
+    font-size: 1.5em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.option-button:hover {
+    background-color: #45a049;
+}
+
+.option-button.cancel-button {
+    background-color: #f44336;
+}
+
+.option-button.cancel-button:hover {
+    background-color: #e53935;
+}
+
+input[type="checkbox"].checkbox, input[type="radio"].radio {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    outline: none;
+    vertical-align: middle;
+    cursor: pointer;
+    position: relative;
+    top: -1px;
+}
+  
+input[type="checkbox"].checkbox + span, input[type="radio"].radio + span {
+    vertical-align: middle;
+    padding-left: 5px;
+}
+  
+
+input[type="checkbox"].checkbox:checked, input[type="radio"].radio:checked {
+    background-color: #8acaa4;
+    border: 3px solid white;
+    box-shadow: 0 0 0 1.6px #8acaa4;
+}
+
+/*input[type="radio"], input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.5);
+    margin-bottom: 10px;
+}*/
+
+
+.quantity {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.quantity-control span {
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+.quantity-control .decrease-button, .quantity-control .increase-button {
+    background: #ddd; 
+    border: none;
+    padding: 15px 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.5em;
+}
+
+.quantity-control .decrease-button:hover {
+    background: #e74c3c; 
+    color: white;
+}
+
+.quantity-control .increase-button:hover {
+    background: #45a049; 
+    color: white;
+}
+
+#blur-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    z-index: 500;
+    display: none;
+}
+
+.cart {
+    background: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+    padding: 5px;
+    gap: 5px; 
+}
+
+.cart-item h3, .cart-item p, .quantity-control {
+    flex: 1; 
+    text-align: center; 
+    margin: 0; 
+}
+
+.cart-item .delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 30px;  
+    height: 30px;
+    font-size: 16px;
+    border-radius: 5px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin-right: 10px;
+}
+
+.cart-item .delete-button:hover {
+    background-color: darkred;
+}
+
+.cart .total {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 1.5em;
+}
+
+.cart button {
+    width: 140px;
+    padding: 20px;
+    margin: 10px auto; 
+    display: block; 
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    height: auto;
+    font-size: 1.6em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+#order-summary {
+    background-color: #e6ffe6;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.total-price-box {
+    background-color: #8acaa4;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.total-price-box p {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+}
+
+.total-price {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.modal-content button {
+    width: 300px;
+    padding: 20px;
+    margin: 10px;
+    font-size: 1.5em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
+}
+
+.modal-content .cancel-button {
+    background-color: #f44336;
+}
+
+.modal-content .cancel-button:hover {
+    background-color: #e53935;
+}
+
+.close {
+    color: #aaa;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pagination {
+    margin: 20px 0;
+}
+
+.pagination button {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.receipt {
+    background: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 80%;
+    margin: auto;
+    text-align: left;
+}
+
+.confirmation-details p,
+.confirmation-details ul,
+.confirmation-details li {
+    font-size: 1em;
+}
+
+.confirmation-details {
+    margin-bottom: 20px;
+    text-align: left; 
+}
+
+.receipt-options {
+    font-size: 1em;
+}
+
+.receipt h2 {
+    text-align: center;
+    font-size: 1.5em; 
+}
+
+.receipt-details {
+    font-size: 1em; 
+}
+
+.receipt-details p,
+.receipt-details ul,
+.receipt-details li {
+    font-size: 1em; 
+    margin: 0; 
+    padding: 0; 
+}
+
+.receipt-options li {
+    font-size: 0.5em; 
+    margin-left: 10px; 
+    margin: 0; 
+    padding: 0; 
+}
+
+.payment-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.payment-button {
+    width: 80%;
+    padding: 40px;
+    font-size: 2em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.payment-button img.icon {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    filter: invert(1);
+}
+
+.payment-button:hover {
+    background-color: #45a049;
+}
+
+/* 여기부터 친절한 메뉴판 */
+.friendly #start-screen h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.friendly #start-screen .order-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 300px; 
+    padding: 30px; 
+    font-size: 2em; 
+    margin: 20px auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.friendly #start-screen .order-button:hover {
+    background-color: #45a049;
+}
+
+.friendly #category-buttons .menu-button {
+    width: 250px; 
+    padding: 20px; 
+    font-size: 2.0em; 
+}
+
+.friendly #subcategory-buttons .subcategory-button {
+    width: 180px; 
+    padding: 20px; 
+    font-size: 1.5em; 
+}
+
+.friendly .menu-item {
+    width: 40%; 
+    height: auto; 
+    padding: 20px;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.friendly .menu-item img {
+    width: 200px; 
+    height: 200px;
+    margin-bottom: 20px; 
+}
+
+.friendly .menu-item h3 {
+    font-size: 1.6em;
+    margin-bottom: 10px; 
+}
+
+.friendly .menu-item p {
+    font-size: 1.5em; 
+    margin-bottom: 10px; 
+}
+
+.friendly .menu-item button {
+    width: 100%;
+    padding: 20px;
+    font-size: 1.5em; 
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    margin: 0 10px;
+    cursor: pointer; 
+}
+
+
+.friendly .cart {
+    font-size: 1.6em;
+}
+
+.friendly .cart button#checkout-button {
+    white-space: nowrap; 
+    font-size: 1.8em; 
+    padding: 20px 40px; 
+    width: auto;
+    max-width: 100%;
+    margin-top: 20px;
+    background-color: #4CAF50; 
+    color: white; 
+    border: none; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+.friendly .cart button#checkout-button:hover {
+    background-color: #45a049; 
+}
+
+.friendly .cart h2, 
+.friendly .cart .total, 
+.friendly .cart button {
+    font-size: 1.5em; 
+}
+
+
+.friendly .cart-item {
+    gap: 5px; 
+    font-size: 1.5em; 
+}
+
+.friendly .cart-item h3, .friendly .cart-item p, .friendly .quantity-control {
+    flex: 1; 
+    text-align: center; 
+    margin: 0; 
+}
+
+.friendly .quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 2px; 
+    justify-content: center; 
+}
+
+.friendly .order-button {
+    width: 300px;
+    padding: 30px;
+    font-size: 2em;
+    margin: 20px auto;
+}

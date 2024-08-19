@@ -18,9 +18,11 @@ def clova_speech_recognition(audio_data):
 
     # audio_data를 파일 데이터로 전송
     response = requests.post(url, headers=headers, params=params, data=audio_data)
+    print(f"Clova API Response: {response.text}")
 
     if response.status_code == 200:
         return response.json().get('text')
     else:
         print(f"Error Code: {response.status_code}")
         return None
+

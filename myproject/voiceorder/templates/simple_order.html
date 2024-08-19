@@ -9,6 +9,9 @@
     <h1>음성 주문</h1>
     <button id="recordButton">음성 주문 시작</button>
     <p id="result"></p>
+    <form id="audioForm" method="post" style="display:none;">
+        {% csrf_token %}
+    </form>
 
     <script>
         let audioRecorder;
@@ -70,7 +73,11 @@
                 });
 
                 const result = await response.json();
-                document.getElementById('result').innerText = result.success ? result.text : result.error;
+                if (result.success) {
+                    document.getElementById('result').innerText = `메뉴: ${result.item_name}, 수량: ${result.quantity}`;
+                } else {
+                    document.getElementById('result').innerText = result.error;
+                }
             };
         }
     </script>
