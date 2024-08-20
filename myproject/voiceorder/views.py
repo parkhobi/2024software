@@ -5,6 +5,22 @@ from .utils import clova_speech_recognition
 from django.shortcuts import render
 
 
+
+def get_menu_items(request, subcategory):
+    menu_items = MenuItem.objects.filter(subcategory=subcategory)
+    data = []
+    for item in menu_items:
+        data.append({
+            'name': item.name,
+            'price': item.price,
+            'img': item.img,  # 이미지 경로는 템플릿에서 처리
+        })
+    return JsonResponse({'menu_items': data})
+
+
+
+
+
 def options(request, cart_item_id):
     # 특정 CartItem을 ID로 가져옴
     cart_item = CartItem.objects.get(id=cart_item_id)

@@ -3,11 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>홈</title>
+    <title>메가커피 성신여대점 키오스크</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>주문 방식 선택</h1>
-    <a href="/regular_order/"><button>기본 주문</button></a>
-    <a href="/simple_order/"><button>간편 주문</button></a>
+    <!-- 홈 화면 이미지 -->
+    <div id="home-screen" class="full-screen" onclick="goToOrderSelection()">
+        <img src="{% static 'images/키오스크 첫 화면.png' %}" alt="키오스크 첫 화면" class="full-screen-image">
+    </div>
+
+    <!-- 주문 방식 선택 화면 -->
+    <div id="order-selection-screen" class="center-content" style="display: none;">
+        <h1>주문 방식 선택</h1>
+        <button class="order-button" onclick="goToPackagingSelection('simple')">간편 주문</button>
+        <button class="order-button" onclick="goToPackagingSelection('regular')">기본 주문</button>
+        <p>간편 주문은 음성 주문으로 쉽게 주문할 수 있습니다!</p>
+    </div>
+
+    <!-- 포장 또는 매장 선택 화면 -->
+    <div id="packaging-selection-screen" class="center-content" style="display: none;">
+        <h1>포장 또는 매장 선택</h1>
+        <button class="order-button" onclick="selectPackagingOption('takeout')">포장</button>
+        <button class="order-button" onclick="selectPackagingOption('dinein')">매장</button>
+    </div>
+
+    <!-- 음성 주문 화면 -->
+    <div id="voice-order-screen" class="center-content" style="display: none;">
+        <h1>음성 주문</h1>
+        <button id="recordButton" class="order-button">음성 주문 시작</button>
+        <p id="result"></p>
+        <form id="audioForm" method="post" style="display:none;">
+            {% csrf_token %}
+        </form>
+    </div>
+
+    <script>
+        let orderType = ''; // 주문 방식을 저장할 변수
+
+        // 주문 방식 선택 화면으로 전환
+        function goToOrderSelection() {
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('order-selection-screen').style.display = 'block';
+        }
+
+        // 포장 또는 매장 선택 화면으로 전환
+        function goToPackagingSelection(selectedOrderType) {
+            orderType = selectedOrderType; // 주문 방식을 저장
+            document.getElementById('order-selection-screen').style.display = 'none';
+            document.getElementById('packaging-selection-screen').style.display = 'block';
+        }
+
+        // 포장 또는 매장 옵션 선택 시 처리
+        function selectPackagingOption(option) {
+            if (option === 'takeout') {
+                alert("포장을 선택했습니다.");
+            } else if (option === 'dinein') {
+                alert("매장을 선택했습니다.");
+            }
+
+            // 포장/매장 선택 후 음성 주문 화면으로 전환
+            document.getElementById('packaging-selection-screen').style.display = 'none';
+            document.getElementById('voice-order-screen').style.display = 'block';
+
+            // 이후 로직: 음성 주문 활성화 (간편/기본 주문 구분 가능)
+            initializeVoiceOrder();
+        }
+
+        // 음성 녹음 및 주문 처리
+        function initializeVoiceOrder() {
+            let audioRecorder;
+            let audioChunks = [];
+
+            // CSRF 토큰 가져오는 함수
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            const csrftoken = getCookie('csrftoken');
+
+            document.getElementById('recordButton').onclick = async () => {
+                if (!audioRecorder) {
+                    await initializeRecorder();
+                }
+                if (audioRecorder.state === 'inactive') {
+                    audioChunks = [];
+                    audioRecorder.start();
+                    document.getElementById('recordButton').innerText = '녹음 중지';
+                } else {
+                    audioRecorder.stop();
+                    document.getElementById('recordButton').innerText = '음성 주문 시작';
+                }
+            };
+
+            async function initializeRecorder() {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioRecorder = new MediaRecorder(stream);
+
+                audioRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                audioRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('audio', audioBlob, 'voice.wav');
+
+                    // AJAX POST 요청으로 음성 파일 전송
+                    const response = await fetch('/simple_order/', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken,  // CSRF 토큰 추가
+                        },
+                        body: formData
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        document.getElementById('result').innerText = `메뉴: ${result.item_name}, 수량: ${result.quantity}`;
+                    } else {
+                        document.getElementById('result').innerText = result.error;
+                    }
+                };
+            }
+        }
+    </script>
 </body>
 </html>
